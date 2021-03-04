@@ -12,15 +12,16 @@ function App() {
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [message, setMessage] = useState<string>();
   const [digipetStats, setDigipetStats] = useState<Digipet>();
+  // console.log(message);
 
   const loadDataFromEndpoint = async (endpoint: `/${string}`) => {
+    const res = await fetch(`http://localhost:4000${endpoint}`);
+    const body = await res.json();
+    setMessage(body.message);
+    setDigipetStats(body.digipet);
     // try... catch documentation:
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
     try {
-      const res = await fetch(`http://localhost:4000${endpoint}`);
-      const body = await res.json();
-      setMessage(body.message);
-      setDigipetStats(body.digipet);
     } catch (err) {
       console.log(err);
       setMessage(`${err.name}: ${err.message}`);
@@ -40,8 +41,8 @@ function App() {
   return (
     <main>
       <h1>Digipet</h1>
-      {isFirstLoad && <p>Loading...</p>}
-      {message && <p>{message}</p>}
+      {isFirstLoad && <p>Loading...</p> /*while isFirstLoad is true, show the loading message */}
+      {message && <p>{message}</p> /*when the message is true (so not undefined) then show the message*/}
       <hr />
       <DigipetData digipet={digipetStats} />
       <hr />
@@ -55,7 +56,22 @@ function App() {
             name: "Walk",
             handler: () => loadDataFromEndpoint("/digipet/walk"),
           },
-          { name: "Feed" },
+          { 
+            name: "Feed",
+            handler: () => loadDataFromEndpoint("/digipet/feed"),
+          },
+          {
+            name: "Train",
+            handler: () => loadDataFromEndpoint("/digipet/train")
+          },
+          {
+            name: "Ignore",
+            handler: () => loadDataFromEndpoint("/digipet/ignore")
+          },
+          {
+            name: "Rehome",
+            handler: () => loadDataFromEndpoint("/digipet/rehome")
+          },
         ]}
       />
     </main>
