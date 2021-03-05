@@ -15,7 +15,7 @@ function App() {
   // console.log(message);
 
   const loadDataFromEndpoint = async (endpoint: `/${string}`) => {
-    const res = await fetch(`http://boiling-river-71009.herokuapp.com${endpoint}`);
+    const res = await fetch(`https://boiling-river-71009.herokuapp.com${endpoint}`);
     const body = await res.json();
     setMessage(body.message);
     setDigipetStats(body.digipet);
